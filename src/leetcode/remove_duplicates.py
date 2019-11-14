@@ -1,3 +1,5 @@
+# https://leetcode.com/problems/remove-duplicates-from-sorted-list/
+
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, x):
@@ -9,29 +11,15 @@ class Solution:
         if head is None:
             return None
 
-        last_duplicate_value = -999999999999
-        to_return = None
-        last_pointer = None
+        last_head = head
+        current_head = head.next
 
-        pointer = head
-        while pointer is not None:
-            if pointer.next is not None and pointer.next.val == pointer.val:
-                last_duplicate_value = pointer.val
-                pointer = pointer.next
-                continue
-            if pointer.val == last_duplicate_value:
-                pointer = pointer.next
-                continue
+        while current_head is not None:
+            if last_head.val != current_head.val:
+                last_head.next = current_head
+                last_head = current_head
+            current_head = current_head.next
 
-            if to_return is None:
-                to_return = pointer
-                last_pointer = pointer
-            else:
-                last_pointer.next = pointer
-                last_pointer = pointer
+        last_head.next = None
 
-            pointer = pointer.next
-
-        if last_pointer is not None:
-            last_pointer.next = None
-        return to_return
+        return head
